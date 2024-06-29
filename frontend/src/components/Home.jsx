@@ -14,7 +14,7 @@ const Home = () => {
         e.preventDefault();
         setLoad(true);
         try {
-            const response = await axios.get(`http://localhost:3000/scrape-reviews?url=${search_url}`);
+            const response = await axios.get(`https://scrapy-two.vercel.app/scrape-reviews?url=${search_url}`);
             
             // Convert result to a Blob and save as JSON file
             const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
