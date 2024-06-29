@@ -13,16 +13,27 @@ const Home = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoad(true);
-        try {
-            const response = await axios.get(`https://scrapy-two.vercel.app/scrape-reviews?url=${search_url}`);
-            
-            // Convert result to a Blob and save as JSON file
-            const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
-            setResult(blob);
+        if(search_url.startsWith("http")){
+            const parsedUrl = new URL(search_url);
+            if(parsedUrl.hostname.includes('amazon.')){
+                try {
+                    const response = await axios.get(`https://scrapy-two.vercel.app/scrape-reviews?url=${search_url}`);
+                    
+                    // Convert result to a Blob and save as JSON file
+                    const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
+                    setResult(blob);
+                    setLoad(false);
+                } catch (e) {
+                    setLoad(false);
+                    console.log(e);
+                }
+            }else{
+                setLoad(false);
+                alert("Enter a valid AMZAZON URL🫥");
+            }
+        }else{
             setLoad(false);
-        } catch (e) {
-            setLoad(false);
-            console.log(e);
+            alert("Enter a valid AMZAZON URL🫥");
         }
     }
 
@@ -45,7 +56,7 @@ const Home = () => {
                         <button type='submit'>{(loader===false)?<i className='fa fa-search'></i>:<span className='loader'></span>}</button>
                     </form>
                     <div className="cta-buttons">
-                        {!loader && <button className="start-trial-button" onClick={()=>{saveAs(result, 'result.json')}}>DOWNLOAD JSON</button>}
+                        {!loader && (search_url.length>0) && <button className="start-trial-button" onClick={()=>{saveAs(result, 'result.json')}}>DOWNLOAD JSON</button>}
                         {/* <button className="learn-more-button">Learn More</button> */}
                     </div>
                     <div className="code-screenshot">
