@@ -1,0 +1,162 @@
+.landing-page {
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;;
+    width: 80%;
+    margin:20px auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.618);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .auth-buttons button {
+    margin-left: 10px;
+    background-color: #182939;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+  }
+  
+  .main-content {
+    padding: 50px 20px;
+  }
+  .blurry-gradient {
+    position: fixed;
+    top: -500px;
+    right: 0;
+    width: 1000px;
+    height: 1000px;
+    opacity: 0.5;
+  }
+  .headline {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .description {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  
+  .cta-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .start-trial-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .learn-more-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .code-screenshot {
+    margin: 40px 0;
+    background: #182939;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    text-wrap: wrap;
+    max-width: 450px;
+    overflow: scroll;
+    margin: 50px auto;
+    height: 100px;
+  }
+  
+  .code-screenshot pre {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .code-screenshot::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .code-screenshot {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .integration-icons {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .footer {
+    padding: 20px;
+    background: #ffffffc7;
+    font-size: 18px;
+    color: rgb(28, 33, 59);
+    height:150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  form{
+    background-color: white;
+    border-radius: 30px;
+    width: max-content;
+    padding: 10px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .input-search{
+    width: 450px;
+    border-radius: 30px;
+    background-color: white;
+    outline: none;
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+}
+
+form button{
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form button:hover{
+    font-size: larger;
+}
