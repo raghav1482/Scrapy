@@ -75,6 +75,9 @@ const scrapeAllPages = async (baseUrl) => {
 };
 
 // API endpoint to scrape Amazon reviews
+app.get("/",(req,res)=>{
+  res.send("Server Running")
+})
 app.get('/scrape-reviews', async (req, res) => {
   const baseUrl = req.query.url;
   if (!baseUrl) {
