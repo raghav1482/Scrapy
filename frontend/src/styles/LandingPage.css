@@ -135,7 +135,6 @@
     align-items: center;
   }
   .input-search{
-    width: 450px;
     border-radius: 30px;
     background-color: white;
     outline: none;
@@ -159,4 +158,18 @@ form button{
 
 form button:hover{
     font-size: larger;
+}
+
+@media screen and (max-width:500px) {
+  form{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    overflow: hidden;
+  }
+  .input-search{
+    width: 80% !important;
+  }
 }
