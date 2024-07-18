@@ -2,11 +2,11 @@ const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 require("dotenv").config();
-const cors = require("cors")
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 5000;
 
 // Function to fetch HTML from a given URL
 const fetchHTML = async (url) => {
@@ -47,6 +47,17 @@ const parseReviews = (html) => {
   return reviews;
 };
 
+// Function to break a body of text into sentences
+const breakIntoSentences = (text) => {
+  return text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
+};
+
+// Function to extract numerical rating from rating string
+const extractRating = (ratingStr) => {
+  const match = ratingStr.match(/(\d+(\.\d+)?)/);
+  return match ? parseFloat(match[0]) : null;
+};
+
 // Function to scrape all pages of reviews
 const scrapeAllPages = async (baseUrl) => {
   let page = 1;
@@ -75,9 +86,10 @@ const scrapeAllPages = async (baseUrl) => {
 };
 
 // API endpoint to scrape Amazon reviews
-app.get("/",(req,res)=>{
-  res.send("Server Running")
-})
+app.get("/", (req, res) => {
+  res.send("Server Running");
+});
+
 app.get('/scrape-reviews', async (req, res) => {
   const baseUrl = req.query.url;
   if (!baseUrl) {
@@ -86,7 +98,27 @@ app.get('/scrape-reviews', async (req, res) => {
 
   try {
     const reviews = await scrapeAllPages(baseUrl);
-    res.json(reviews);
+    let reviewBodies = [];
+    let totalRating = 0;
+    let ratingCount = 0;
+
+    reviews.forEach(review => {
+      const sentences = breakIntoSentences(review.body);
+      reviewBodies = reviewBodies.concat(sentences);
+
+      const rating = extractRating(review.rating);
+      if (rating !== null) {
+        totalRating += rating;
+        ratingCount++;
+      }
+    });
+
+    if (ratingCount > 0) {
+      const averageRating = totalRating / ratingCount;
+      reviewBodies.push(`${averageRating.toFixed(2)}`);
+    }
+
+    res.json(reviewBodies);
   } catch (error) {
     console.error(`Error scraping reviews: ${error}`);
     res.status(500).send({ error: 'Failed to scrape reviews' });
