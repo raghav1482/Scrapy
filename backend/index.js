@@ -24,28 +24,40 @@ const fetchHTML = async (url) => {
   }
 };
 
-// Function to parse the reviews from the HTML
+// Function to parse reviews from CarDekho's HTML
 const parseReviews = (html) => {
   const $ = cheerio.load(html);
   const reviews = [];
 
-  $('.review').each((index, element) => {
+  // Iterate through each review inside <li> tags with the specific structure
+  $('li .readReviewBox').each((index, element) => {
     const review = $(element);
-    const title = review.find('.review-title').text().trim();
-    const rating = review.find('.review-rating .a-icon-alt').text().trim();
-    const body = review.find('.review-text').text().trim();
-    const date = review.find('.review-date').text().trim();
+
+    // Extract author name and date
+    const authorInfo = review.find('.authorSummary .name').text().trim();
+    const [author, date] = authorInfo.split(' on ');
+
+    // Extract rating
+    const rating = review.find('.ratingStarNew').text().trim();
+
+    // Extract title
+    const title = review.find('.title').text().trim();
+
+    // Extract review content
+    const body = review.find('.contentheight div').text().trim();
 
     reviews.push({
-      title,
-      rating,
-      body,
-      date
+      author: author || 'Unknown Author',
+      date: date || 'Unknown Date',
+      rating: rating || 'No Rating',
+      title: title || 'No Title',
+      body: body || 'No Content',
     });
   });
 
   return reviews;
 };
+
 
 // Function to break a body of text into sentences
 const breakIntoSentences = (text) => {
@@ -63,9 +75,10 @@ const scrapeAllPages = async (baseUrl) => {
   let page = 1;
   let hasMorePages = true;
   let allReviews = [];
+  const maxPages = 50; // Maximum number of pages to scrape
 
-  while (hasMorePages) {
-    const url = `${baseUrl}&pageNumber=${page}`;
+  while (hasMorePages && page <= maxPages) {
+    const url = `${baseUrl}?page=${page}`;
     console.log(`Fetching page ${page}`);
     const html = await fetchHTML(url);
 
@@ -85,7 +98,8 @@ const scrapeAllPages = async (baseUrl) => {
   return allReviews;
 };
 
-// API endpoint to scrape Amazon reviews
+
+// API endpoint to scrape CarDekho reviews
 app.get("/", (req, res) => {
   res.send("Server Running");
 });
@@ -115,7 +129,7 @@ app.get('/scrape-reviews', async (req, res) => {
 
     if (ratingCount > 0) {
       const averageRating = totalRating / ratingCount;
-      reviewBodies.push(`${averageRating.toFixed(2)}`);
+      reviewBodies.push(`Average Rating: ${averageRating.toFixed(2)}`);
     }
 
     res.json(reviewBodies);
